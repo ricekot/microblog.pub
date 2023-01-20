@@ -2,7 +2,7 @@
 {% extends "layout.html" %}
 
 {% block head %}
-<title>{{ local_actor.display_name }}'s microblog</title>
+<title>{{ local_actor.display_name.split(' ')|first }}'s Microblog</title>
 <link rel="indieauth-metadata" href="{{ url_for("well_known_authorization_server") }}">
 <link rel="authorization_endpoint" href="{{ url_for("indieauth_authorization_endpoint") }}">
 <link rel="token_endpoint" href="{{ url_for("indieauth_token_endpoint") }}">
@@ -19,12 +19,9 @@
 {% endblock %}
 
 {% block content %}
-{% include "header.html" %}
 
 {% if objects %}
-
-    <div class="h-feed">
-    <data class="p-name" value="{{ local_actor.display_name}}'s notes"></data>
+    <!-- <data class="p-name" value="{{ local_actor.display_name}}'s notes"></data> -->
     {% for outbox_object in objects %}
     {% if outbox_object.ap_type in ["Note", "Video", "Question"] %}
     {{ utils.display_object(outbox_object) }}
@@ -37,7 +34,6 @@
     </div>
     {% endif %}
     {% endfor %}
-    </div>
 
     {% if has_previous_page or has_next_page %}
         <div class="box">

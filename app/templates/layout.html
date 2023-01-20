@@ -5,14 +5,15 @@
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="{{ BASE_URL }}/static/css/main.css?v={{ CSS_HASH }}">
-<link rel="alternate" title="{{ local_actor.display_name}}'s microblog" type="application/json" href="{{ url_for("json_feed") }}" />
-<link rel="alternate" href="{{ url_for("rss_feed") }}" type="application/rss+xml" title="{{ local_actor.display_name}}'s microblog">
-<link rel="alternate" href="{{ url_for("atom_feed") }}" type="application/atom+xml" title="{{ local_actor.display_name}}'s microblog">
+<link rel="alternate" title="{{ local_actor.display_name.split(' ')|first }}'s Microblog" type="application/json" href="{{ url_for("json_feed") }}" />
+<link rel="alternate" href="{{ url_for("rss_feed") }}" type="application/rss+xml" title="{{ local_actor.display_name.split(' ')|first }}'s Microblog">
+<link rel="alternate" href="{{ url_for("atom_feed") }}" type="application/atom+xml" title="{{ local_actor.display_name.split(' ')|first }}'s Microblog">
 <link rel="icon" type="image/x-icon" href="{{ BASE_URL }}/static/favicon.ico">
 <style>{{ highlight_css }}</style>
 {% block head %}{% endblock %}
 </head>
 <body>
+{% include "header.html" %}
 <div id="main">
 <main{%- block main_tag %}{%- endblock %}>
 {% if is_admin %}
@@ -39,11 +40,26 @@
 
 </div>
 {% endif %}
+<main class="page-content" aria-label="Content"><div class="wrapper">
 {% block content %}{% endblock %}
+</div></main>
 </main>
 </div>
 
-<footer class="footer">
+<footer class="site-footer h-card">
+    <data class="u-url" href="/"></data>
+    <div class="wrapper">
+      <div class="footer-col-wrapper">
+        <center>
+          Powered by <a href="https://docs.microblog.pub">microblog.pub</a> and the <a href="https://activitypub.rocks/">ActivityPub</a> protocol.<br>
+          © {{ now().year }} Akshath Kothari.
+        </center>
+      </div>
+    </div>
+</footer>
+  
+
+<!-- <footer class="footer">
     <div class="box">
     {% if custom_footer %}
         {{ custom_footer | safe }}
@@ -51,7 +67,7 @@
         Powered by <a href="https://docs.microblog.pub">microblog.pub</a> <small class="microblogpub-version"><code>{{ microblogpub_version }}</code></small> and the <a href="https://activitypub.rocks/">ActivityPub</a> protocol. <a href="{{ url_for("login") }}">Admin</a>.
     {% endif %}
     </div>
-</footer>
+</footer> -->
 {% if is_admin %}
 <script src="{{ BASE_URL }}/static/common-admin.js?v={{ JS_HASH }}"></script>
 {% endif %}

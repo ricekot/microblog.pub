@@ -531,9 +531,18 @@
 {% block display_object scoped %}
 {% set is_article_mode = object.is_from_outbox and object.ap_type == "Article" and is_object_page %}
 {% if object.ap_type in ["Note", "Article", "Video", "Page", "Question", "Event"] %}
-<div class="ap-object {% if expanded %}ap-object-expanded {% endif %}{% if is_h_entry %}h-entry{% endif %}" id="{{ object.permalink_id }}">
+<article class="post h-entry" itemscope itemtype="https://schema.org/SocialMediaPosting">
+<header class="post-header">
+    <p class="post-meta">
+        <time class="dt-published" datetime="{{ object.ap_published_at.replace(microsecond=0).isoformat() }}" itemprop="datePublished">
+        {{ object.ap_published_at | timeago }}
+        </time>
+        <a href="{{ object.url }}"{% if object.is_from_inbox %} rel="nofollow"{% endif %} class="object-permalink u-url u-uid">permalink</a>
+    </p>
+</header>
+<div class="post-content e-content ap-object {% if expanded %}ap-object-expanded {% endif %}{% if is_h_entry %}h-entry{% endif %}" id="{{ object.permalink_id }}" itemprop="articleBody">
 
-    {% if is_article_mode %}
+    <!-- {% if is_article_mode %}
     <data class="h-card">
         <data class="u-photo" value="{{ local_actor.icon_url }}"></data>
         <data class="u-url" value="{{ local_actor.url}}"></data>
@@ -541,7 +550,7 @@
     </data>
     {% else %}
     {{ display_actor(object.actor, actors_metadata, embedded=True) }}
-    {% endif %}
+    {% endif %} -->
 
     {% if object.in_reply_to %}
     <p class="in-reply-to">in reply to <a href="{% if is_admin and object.is_in_reply_to_from_inbox %}{{ url_for("get_lookup") }}?query={% endif %}{{ object.in_reply_to }}" title="{{ object.in_reply_to }}" rel="nofollow">
@@ -654,7 +663,7 @@
     {{ display_attachments(object) }}
     </div>
 
-    <nav class="flexbox activity-bar">
+    <!-- <nav class="flexbox activity-bar">
     <ul>
         <li>
             <div><a href="{{ object.url }}"{% if object.is_from_inbox %} rel="nofollow"{% endif %} class="object-permalink u-url u-uid">permalink</a></div>
@@ -721,7 +730,7 @@
         {% endif %}
 
     </ul>
-    </nav>
+    </nav> -->
 
     {% if is_admin %}
     <nav class="flexbox activity-bar">
@@ -848,6 +857,7 @@
 
 
 </div>
+</article>
 {% endif %}
 {% endblock %}
 {% endmacro %}

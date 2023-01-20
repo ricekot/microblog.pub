@@ -24,10 +24,6 @@
 
 {% block content %}
 
-{% if outbox_object %}
-{% include "header.html" %}
-{% endif %}
-
 {% macro display_replies_tree(replies_tree_node) %}
 
 {% if replies_tree_node.is_requested %}

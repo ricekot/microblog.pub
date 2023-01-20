@@ -7,15 +7,19 @@
 {% endblock %}
 
 {% block content %}
-{% include "header.html" %}
 
 <div class="box">
-<h2>Remotely follow {{ local_actor.display_name }}</h2>
+<h3>Subscribe via ActivityPub (e.g. Mastodon)</h3>
 <form class="form" action="{{ url_for("post_remote_follow") }}" method="POST">
     {{ utils.embed_csrf_token() }}
-    <input type="text" name="profile" placeholder="you@instance.tld" autofocus>
+    <input type="text" name="profile" placeholder="your_username@server.tld" autofocus>
     <input type="submit" value="follow">
 </form>
+</div>
+<br>
+<div class="box">
+<h3>Subscribe to RSS (Atom) Feed</h3>
+The feed is available at <a href="/feed.atom">/feed.atom</a>.
 </div>
 
 {% endblock %}
